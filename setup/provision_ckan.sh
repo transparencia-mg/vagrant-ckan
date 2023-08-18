@@ -56,7 +56,18 @@ echo "Postgres configuration."
 echo "-----------------------------------------------"
 sudo service postgresql start
 sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'ckan_default';"
-sudo -u postgres psql -c "CREATE DATABASE ckan_default WITH OWNER = 'ckan_default' ENCODING 'utf-8'" 
+sudo -u postgres psql -c "CREATE DATABASE ckan_default WITH OWNER = 'ckan_default' ENCODING 'utf-8'"
+
+echo "-----------------------------------------------"
+echo "Setup Solr."
+echo "-----------------------------------------------"
+wget https://www.apache.org/dyn/closer.lua/solr/solr/9.1.0/solr-9.1.0.tgz?action=download
+tar -xvzf 'solr-9.1.0.tgz?action=download'
+./solr-9.1.0/bin/solr start
+./solr-9.1.0/bin/solr create -c ckan
+# Test if it's running
+wget http://localhost:8983/solr
+cp /home/vagrant/ckan_source/ckan/config/solr/schema.xml solr-9.1.0/server/solr/ckan/conf/managed-schema.xml
 
 echo "-----------------------------------------------"
 echo "The environment has been installed."
