@@ -51,7 +51,16 @@ sudo mkdir -p /etc/ckan/default
 sudo chown -R `whoami` /etc/ckan/
 ckan generate config /etc/ckan/default/ckan.ini
 
+echo "-----------------------------------------------"
+echo "Postgres configuration."
+echo "-----------------------------------------------"
+sudo service postgresql start
+sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'ckan_default';"
+sudo -u postgres psql -c "CREATE DATABASE ckan_default WITH OWNER = 'ckan_default' ENCODING 'utf-8'" 
+
+echo "-----------------------------------------------"
 echo "The environment has been installed."
+echo "-----------------------------------------------"
 echo
 echo "You can start the machine by running: vagrant up"
 echo "You can ssh to the machine by running: vagrant ssh"

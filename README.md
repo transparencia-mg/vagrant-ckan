@@ -52,3 +52,22 @@ echo "You can stop the machine by running: vagrant halt"
 echo "You can delete the machine by running: vagrant destroy"
 
 [^1]: [This post](https://my-base-knowledge.braico.me/1.0.0/texts/20230818_how_to_install_vagrant/?h=vagran) explains how to install vagrant and virtualbox on linux operating systems.
+
+# Tests after installation
+
+Log the new created machine using `vagrant ssh` and:
+- Check if the `ckan.ini` file exists with `cat /etc/ckan/default/ckan.ini`.
+- Check if Postgres `ckan_default` user and database existes with:
+
+```shel
+$ sudo -u postgres psql
+\list
+
+# The result should be sothing like:
+
+                                List of databases
+     Name     |    Owner     | Encoding | Collate |  Ctype  |   Access privileges
+--------------+--------------+----------+---------+---------+-----------------------
+ ckan_default | ckan_default | UTF8     | C.UTF-8 | C.UTF-8 |
+ postgres     | postgres     | UTF8     | C.UTF-8 | C.UTF-8 |
+```
