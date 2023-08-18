@@ -12,7 +12,7 @@ In this context, this repository aims to facilitate the creation of a CKAN insta
 The system dependencies for this project are:
 
 - [VirtualBox](https://www.virtualbox.org/).
-- [Vagrant](https://www.vagrantup.com/).
+- [Vagrant](https://www.vagrantup.com/)[^1].
 - [vagrant-env](https://github.com/gosuri/vagrant-env).
 - In some cases [vagrant-proxyconf](https://github.com/tmatilai/vagrant-proxyconf).
 
@@ -50,3 +50,5 @@ echo "You can start the machine by running: vagrant up"
 echo "You can ssh to the machine by running: vagrant ssh"
 echo "You can stop the machine by running: vagrant halt"
 echo "You can delete the machine by running: vagrant destroy"
+
+[^1]: [This post](https://my-base-knowledge.braico.me/1.0.0/texts/20230818_how_to_install_vagrant/?h=vagran) explains how to install vagrant and virtualbox on linux operating systems.
