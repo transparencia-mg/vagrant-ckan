@@ -75,6 +75,16 @@ echo "-----------------------------------------------"
 sudo service redis-server start
 
 echo "-----------------------------------------------"
+echo "Configure db on ckan.ini and create tables."
+echo "-----------------------------------------------"
+ckanFile=/etc/ckan/default/ckan.ini
+lineNumber=$(grep --line-number "sqlalchemy.url" $ckanFile  | cut -f1 -d:)
+replacedLine="sqlalchemy.url = postgresql://ckan_default:ckan_default@localhost/ckan_default"
+replacedLine=${replacedLine//\//\\\/}
+sed -i $lineNumber's/.*/'"$replacedLine"'/'  $ckanFile
+ckan -c /etc/ckan/default/ckan.ini db init
+
+echo "-----------------------------------------------"
 echo "The environment has been installed."
 echo "-----------------------------------------------"
 echo
