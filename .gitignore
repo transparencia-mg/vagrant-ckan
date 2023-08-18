@@ -209,6 +209,7 @@ GitHub.sublime-settings
 ### Vagrant ###
 # General
 .vagrant/
+ubuntu-bionic-18.04-cloudimg-console.log
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.log
