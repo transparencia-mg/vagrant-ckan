@@ -3,6 +3,7 @@
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
+ckan_source
 __pycache__/
 *.py[cod]
 *$py.class
