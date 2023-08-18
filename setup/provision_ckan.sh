@@ -1,19 +1,24 @@
 #!/bin/bash
 
 echo "Initial setup.  This may take a few minutes ..."
-apt-get update
 
-apt-get install -y build-essential \
-				   ca-certificates \
-			       curl \
-			       gnupg \
-			       lsb-release
+echo "Installing linux packages."
+sudo apt-get update
+sudo apt-get install -y python3-dev \
+                   postgresql \
+                   libpq-dev \
+                   python3-pip \
+                   python3-venv \
+                   git-core \
+                   openjdk-8-jdk \
+                   redis-server \
+                   graphviz
 
-echo "Installing python..."
-apt-get install -y python3 python3-venv python3-dev libpq-dev
-pip install --upgrade pip
-pip install wheel
-
+echo "Java update"
+sudo apt-get update
+sudo apt-get install -y default-jdk
+sudo apt-get update
+sudo apt-get install -y default-jre
 
 echo "The environment has been installed."
 echo
