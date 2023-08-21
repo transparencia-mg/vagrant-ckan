@@ -50,6 +50,7 @@ python setup.py install
 sudo mkdir -p /etc/ckan/default
 sudo chown -R `whoami` /etc/ckan/
 ckan generate config /etc/ckan/default/ckan.ini
+cd ..
 
 echo "-----------------------------------------------"
 echo "Postgres configuration."
@@ -59,15 +60,23 @@ sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'ckan_default';
 sudo -u postgres psql -c "CREATE DATABASE ckan_default WITH OWNER = 'ckan_default' ENCODING 'utf-8'"
 
 echo "-----------------------------------------------"
-echo "Setup solr."
+echo "Install and Setup solr."
 echo "-----------------------------------------------"
-wget https://www.apache.org/dyn/closer.lua/solr/solr/9.1.0/solr-9.1.0.tgz?action=download
-tar -xvzf 'solr-9.1.0.tgz?action=download'
-./solr-9.1.0/bin/solr start
-./solr-9.1.0/bin/solr create -c ckan
-# Test if it's running
+cd /opt
+sudo wget https://www.apache.org/dyn/closer.lua/lucene/solr/8.11.2/solr-8.11.2.tgz?action=download
+sudo mv solr-8.11.2.tgz\?action\=download solr-8.11.2.tgz
+sudo tar xzf solr-8.11.2.tgz solr-8.11.2/bin/install_solr_service.sh --strip-components=2
+sudo bash ./install_solr_service.sh solr-8.11.2.tgz
+sudo sudo service solr status
+sudo -u solr /opt/solr/bin/solr create -c ckan
+sudo ln -s /home/vagrant/ckan_source/ckan/config/solr/schema.xml /var/solr/data/ckan/conf/managed-schema
+sudo chown -R solr:solr /var/solr
+ckanFile=/etc/ckan/default/ckan.ini
+lineNumber=$(grep --line-number "solr_url" $ckanFile  | cut -f1 -d:)
+replacedLine="solr_url = http://127.0.0.1:8983/solr/ckan/"
+replacedLine=${replacedLine//\//\\\/}
+sed -i $lineNumber's/.*/'"$replacedLine"'/'  $ckanFile
 wget http://localhost:8983/solr
-cp /home/vagrant/ckan_source/ckan/config/solr/schema.xml solr-9.1.0/server/solr/ckan/conf/managed-schema.xml
 
 echo "-----------------------------------------------"
 echo "Start redis."
