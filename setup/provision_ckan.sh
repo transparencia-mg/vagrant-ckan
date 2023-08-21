@@ -69,13 +69,14 @@ sudo tar xzf solr-8.11.2.tgz solr-8.11.2/bin/install_solr_service.sh --strip-com
 sudo bash ./install_solr_service.sh solr-8.11.2.tgz
 sudo sudo service solr status
 sudo -u solr /opt/solr/bin/solr create -c ckan
-sudo ln -s /home/vagrant/ckan_source/ckan/config/solr/schema.xml /var/solr/data/ckan/conf/managed-schema
+sudo rm -rf /var/solr/data/ckan/conf/managed-schema.xml
+sudo ln -s /home/vagrant/ckan_source/ckan/config/solr/schema.xml /var/solr/data/ckan/conf/managed-schema.xml
 sudo chown -R solr:solr /var/solr
 ckanFile=/etc/ckan/default/ckan.ini
 lineNumber=$(grep --line-number "solr_url" $ckanFile  | cut -f1 -d:)
 replacedLine="solr_url = http://127.0.0.1:8983/solr/ckan/"
 replacedLine=${replacedLine//\//\\\/}
-sed -i $lineNumber's/.*/'"$replacedLine"'/'  $ckanFile
+sudo sed -i $lineNumber's/.*/'"$replacedLine"'/'  $ckanFile
 wget http://localhost:8983/solr
 
 echo "-----------------------------------------------"
