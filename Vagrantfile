@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
     ckan.vm.box = "ubuntu/focal64"
     ckan.vm.provision "shell", privileged: false, path: "setup/provision_ckan.sh", env: {VAGRANT_HTTP_PROXY:ENV['VAGRANT_HTTP_PROXY'], VAGRANT_HTTPS_PROXY:ENV['VAGRANT_HTTPS_PROXY']}
     ckan.vm.provision "shell", inline: 'echo ". /usr/lib/ckan/default/bin/activate && cd ~/" > ~/.profile', privileged: false
+    ckan.vm.network "forwarded_port", guest: 5000, host: 5000
   end
 
 end
